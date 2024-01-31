@@ -1,38 +1,18 @@
 [
     {
         "background": "none",
-        "verlo": "#9e9e9e",
-        ".co": "#424242"
+        "verlo": "#f5f5f5",
+        ".co": "#eeeeee"
     },
     {
         "background": "none",
-        "verlo": "#757575",
-        ".co": "#616161"
+        "verlo": "#eeeeee",
+        ".co": "#e0e0e0"
     },
     {
         "background": "none",
-        "verlo": "#616161",
-        ".co": "#424242"
-    },
-    {
-        "background": "none",
-        "verlo": "#616161",
-        ".co": "#424242"
-    },
-    {
-        "background": "none",
-        "verlo": "#424242",
-        ".co": "#212121"
-    },
-    {
-        "background": "none",
-        "verlo": "#212121",
-        ".co": "#000000"
-    },
-    {
-        "background": "none",
-        "verlo": "#9e9e9e",
-        ".co": "#757575"
+        "verlo": "#e0e0e0",
+        ".co": "#bdbdbd"
     },
     {
         "background": "none",
@@ -41,7 +21,27 @@
     },
     {
         "background": "none",
-        "verlo": "#eeeeee",
-        ".co": "#e0e0e0"
+        "verlo": "#d0d0d0",
+        ".co": "#c0c0c0"
+    },
+    {
+        "background": "none",
+        "verlo": "#c2c2c2",
+        ".co": "#b8b8b8"
+    },
+    {
+        "background": "none",
+        "verlo": "#b8b8b8",
+        ".co": "#aeaeae"
+    },
+    {
+        "background": "none",
+        "verlo": "#aeaeae",
+        ".co": "#a4a4a4"
+    },
+    {
+        "background": "none",
+        "verlo": "#a4a4a4",
+        ".co": "#9a9a9a"
     }
 ]
