@@ -11,12 +11,12 @@
     renderer.setClearColor(0x00ff00);
     document.body.appendChild(renderer.domElement);
 
-    var stats = new Stats();
-    stats.setMode(0);
-    stats.domElement.style.position = "absolute";
-    stats.domElement.style.left = "0px";
-    stats.domElement.style.top = "0px";
-    document.body.appendChild(stats.domElement);
+    // var stats = new Stats();
+    // stats.setMode(0);
+    // stats.domElement.style.position = "absolute";
+    // stats.domElement.style.left = "0px";
+    // stats.domElement.style.top = "0px";
+    // document.body.appendChild(stats.domElement);
 
     var grid = {
         size: new THREE.Vector2(512, 256),
@@ -35,68 +35,36 @@
 
     function init(shaders) {
         solver = F2D.Solver.make(grid, time, windowSize, shaders);
-
+    
+        // Set fixed properties directly
+        solver.advect.dissipation = 0.998; // Example of setting a fixed dissipation value
+        solver.applyViscosity = true; // Enable viscosity
+        solver.viscosity = 0.8; // Set viscosity value
+        solver.applyVorticity = true; // Enable vorticity
+        solver.vorticityConfinement.curl = 10; // Set vorticity confinement curl
+        solver.splat.radius = 0.1; // Set splat radius
+        solver.splat.color = new THREE.Vector3(0.447, 0.639, 0.196); // Set splat color
+        grid.applyBoundaries = true; // Enable boundary application
+        grid.scale = 10; // Set grid scale
+    
         displayScalar = new F2D.Display(shaders.basic, shaders.displayscalar);
         displayVector = new F2D.Display(shaders.basic, shaders.displayvector);
-
-        gui = new dat.GUI();
-        gui.add(displaySettings, "slab", [
-            "density",
-            "velocity",
-            "divergence",
-            "pressure"
-        ]);
-        gui.add(time, "step").min(0).step(0.01);
-
-        var advectFolder = gui.addFolder("Advect");
-        advectFolder.add(solver.advect, "dissipation", {
-            "none": 1,
-            "slow": 0.998,
-            "fast": 0.992,
-            "very fast": 0.9
-        });
-
-        var viscosityFolder = gui.addFolder("Viscosity");
-        viscosityFolder.add(solver, "applyViscosity");
-        viscosityFolder.add(solver, "viscosity").min(0).step(0.01);
-
-        var vorticityFolder = gui.addFolder("Vorticity");
-        vorticityFolder.add(solver, "applyVorticity");
-        vorticityFolder.add(solver.vorticityConfinement, "curl").min(0).step(0.01);
-
-        var poissonPressureEqFolder = gui.addFolder("Poisson Pressure Equation");
-        poissonPressureEqFolder.add(solver.poissonPressureEq, "iterations", 0, 500, 1);
-
-        // we need a splat color "adapter" since we want values between 0 and
-        // 1 but also since dat.GUI requires a JavaScript array over a Three.js
-        // vector
-        var splatSettings = {
-            color: [
-                solver.ink.x * 255,
-                solver.ink.y * 255,
-                solver.ink.z * 255
-            ]
-        };
-        var splatFolder = gui.addFolder("Splat");
-        splatFolder.add(solver.splat, "radius").min(0);
-        splatFolder.addColor(splatSettings, "color").onChange(function(value) {
-            solver.ink.set(value[0] / 255, value[1] / 255, value[2] / 255);
-        });
-
-        var gridFolder = gui.addFolder("Grid");
-        gridFolder.add(grid, "applyBoundaries");
-        gridFolder.add(grid, "scale");
-
+    
+        // Set the initial slab to be displayed, e.g., "density"
+        displaySettings.slab = "divergence";
+        mouse.simulateCenterForce();
+    
         requestAnimationFrame(update);
     }
+    
 
     function update() {
-        stats.begin();
+        // stats.begin();
 
         solver.step(renderer, mouse);
         render();
 
-        stats.end();
+        // stats.end();
         requestAnimationFrame(update);
     }
 

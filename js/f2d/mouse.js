@@ -20,6 +20,20 @@ var F2D = F2D === undefined ? {} : F2D;
     F2D.Mouse.prototype = {
         constructor: F2D.Mouse,
 
+        simulateCenterForce: function() {
+            // Determine the center of the grid.
+            var centerX = this.grid.size.x / 2;
+            var centerY = this.grid.size.y / 2;
+    
+            // Simulate a force at the center.
+            this.motions.push({
+                left: true, // Assuming left-click to apply a force.
+                right: false,
+                drag: { x: 10, y: 10 }, // No drag since it's a single application of force.
+                position: { x: centerX, y: centerY }
+            });
+        },
+
         mouseDown: function(event) {
             this.position.set(event.clientX, event.clientY);
             this.left = event.button === 0 ? true : this.left;

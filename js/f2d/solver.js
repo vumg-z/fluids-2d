@@ -3,19 +3,14 @@ var F2D = F2D === undefined ? {} : F2D;
 (function(F2D) {
     "use strict";
 
+    
+
     F2D.Solver = function(grid, time, windowSize, slabs, slabop) {
         this.grid = grid;
         this.time = time;
         this.windowSize = windowSize;
-
-        // slabs
-        this.velocity = slabs.velocity;
-        this.density = slabs.density;
-        this.velocityDivergence = slabs.velocityDivergence;
-        this.velocityVorticity = slabs.velocityVorticity;
-        this.pressure = slabs.pressure;
-
-        // slab operations
+    
+        // Initialize slab operations
         this.advect = slabop.advect;
         this.diffuse = slabop.diffuse;
         this.divergence = slabop.divergence;
@@ -25,12 +20,26 @@ var F2D = F2D === undefined ? {} : F2D;
         this.vorticity = slabop.vorticity;
         this.vorticityConfinement = slabop.vorticityConfinement;
         this.boundary = slabop.boundary;
-
-        this.viscosity = 0.3;
-        this.applyViscosity = false;
-        this.applyVorticity = false;
-
-        // density attributes
+    
+        // Initialize slabs
+        this.velocity = slabs.velocity;
+        this.density = slabs.density;
+        this.velocityDivergence = slabs.velocityDivergence;
+        this.velocityVorticity = slabs.velocityVorticity;
+        this.pressure = slabs.pressure;
+    
+        // Set fixed properties after the objects have been initialized
+        this.advect.dissipation = 'slow'; // Set the dissipation to 'slow'
+        this.applyViscosity = true; // Enable viscosity
+        this.viscosity = 0.8; // Set viscosity value
+        this.applyVorticity = true; // Enable vorticity
+        this.vorticityConfinement.curl = 10; // Set vorticity confinement curl
+        this.splat.radius = 0.1; // Set splat radius
+        this.splat.color = new THREE.Vector3(0.447, 0.639, 0.196); // Set splat color using RGB values for #72a431
+        this.grid.applyBoundaries = true; // Enable boundary application
+        this.grid.scale = 10; // Set grid scale
+    
+        // Density attributes (if these need to be set to fixed values, do so here)
         this.source = new THREE.Vector3(0.8, 0.0, 0.0);
         this.ink = new THREE.Vector3(0.0, 0.06, 0.19);
     };
